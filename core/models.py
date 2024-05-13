@@ -3,6 +3,7 @@ from django.db import models
 
 
 class Customer(models.Model):
+
     EMIRATES = [
         ('abudhabi', 'Abu Dhabi'),
         ('dubai', 'Dubai'),
@@ -10,9 +11,9 @@ class Customer(models.Model):
         ('ajman', 'Ajman'),
         ('ummalquwain', 'Umm Al Quwain'),
         ('rasalkhaimah', 'Ras Al Khaimah'),
-        ('fujairah', 'Fujairah')
-        
+        ('fujairah', 'Fujairah')  
     ]
+    
     name = models.CharField(max_length=50)
     email = models.EmailField(unique=True)
     mobile = models.CharField(max_length=15)

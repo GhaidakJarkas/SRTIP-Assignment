@@ -12,10 +12,12 @@ from django.http import JsonResponse
 import datetime
 
 
+#Index page
 def index(request):
     return render(request, "core/index.html")
 
 
+#Login function
 def user_login(request):
     if request.user.is_authenticated:
         return redirect('core:index')
@@ -36,11 +38,15 @@ def user_login(request):
         return render(request, "core/login.html")
     
 
+#User Logout Function
 def user_logout(request):
     if request.user.is_authenticated:
         logout(request)
     return redirect('core:login')
 
+
+#List of all users
+#Only Admin users are allowed to see this page
 @allowed_users(['admin'])
 def users(request):
     users = CustomUser.objects.all().order_by('-created_at')
@@ -50,6 +56,9 @@ def users(request):
 
     return render(request, "core/users.html", ctx)
 
+
+#Create new user
+#Only Admin users are allowed to see this page
 @allowed_users(['admin'])
 def create_user(request):
     if request.method == 'POST':
@@ -72,6 +81,9 @@ def create_user(request):
             
     return render(request, "core/create-user.html")
 
+
+#Edit a user
+#Only Admin users are allowed to see this page
 @allowed_users(['admin'])
 def edit_user(request, pk):
     user = get_object_or_404(CustomUser, pk=pk)
@@ -101,6 +113,9 @@ def edit_user(request, pk):
     return render(request, "core/edit-user.html", ctx)
 
 
+
+#Delete a user
+#Only Admin users are allowed to see this page
 @allowed_users(['admin'])
 def delete_user(request):
     data = request.POST.copy()
@@ -111,6 +126,8 @@ def delete_user(request):
 
 
 
+#List of all customers
+#All users are allowed to see this page
 @allowed_users(['admin', 'staff', 'customer'])
 def customers(request):
     customers = Customer.objects.all().order_by('-created_at')
@@ -120,6 +137,9 @@ def customers(request):
     return render(request, 'core/customers.html', ctx)
 
 
+
+#Create new customer
+#All users are allowed to see this page
 @allowed_users(['admin', 'staff', 'customer'])
 def create_customer(request):
     countries = Country.objects.all().values('pk', 'name')
@@ -149,6 +169,8 @@ def create_customer(request):
     return render(request, "core/create-customer.html", ctx)
 
 
+#Edit a customer
+#Only Admin and Staff users are allowed to see this page
 @allowed_users(['admin', 'staff'])
 def edit_customer(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
@@ -172,6 +194,9 @@ def edit_customer(request, pk):
     return render(request, "core/edit-customer.html", ctx)
 
 
+
+#Delete a customer
+#Only Admin users are allowed to see this page
 @allowed_users(['admin'])
 def delete_customer(request):
     data = request.POST.copy()
@@ -180,6 +205,8 @@ def delete_customer(request):
     messages.success(request, "Customer has been deleted successfully")
     return redirect('core:customers')
 
+
+#Get a list of a country's cities
 def get_cities(request, id):
     cities = City.objects.filter(country=id).values('pk', 'name')
     cities = list(cities)

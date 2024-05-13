@@ -2,8 +2,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.utils.translation import gettext_lazy as _
 
-
+#Custom Manager for the Custom User
 class CustomUserManager(UserManager):
+    """Create a custom manager for the new custom user model"""
     def _create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError("Email must be set")
@@ -27,7 +28,13 @@ class CustomUserManager(UserManager):
             raise ValueError("Superuser must have is_superuser=True.")
         return self._create_user(email, password, **extra_fields)
 
+
+#Custom User
 class CustomUser(AbstractUser):
+    """
+    Customize the user model to user email as an identifier for the user 
+    and add additional fields to the model
+    """
 
     USER_ROLE_CHOICES = (
         ('admin', "Admin"),
@@ -45,15 +52,6 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
-
-    # @property
-    # def role(self):
-    #     if self.is_superuser:
-    #         return 'Admin'
-    #     elif not self.is_superuser and self.is_staff:
-    #         return 'Staff'
-    #     else:
-    #         return 'Customer'
     
     def __str__(self):
         return self.email

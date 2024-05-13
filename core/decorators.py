@@ -1,6 +1,8 @@
-from django.http import HttpResponse
 from django.shortcuts import render
 
+
+
+#Allow user access a specific view based on their role
 def allowed_users(allowed_roles=[]):
     def decorator(view_func):
         def wrapper_func(request, *args, **kwargs):
