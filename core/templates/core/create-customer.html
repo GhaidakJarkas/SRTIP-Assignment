@@ -52,7 +52,11 @@
 
             $('#customer-form').on('submit', function() {
                 if (!iti.isValidNumber()) {
-                    alert("Please Enter a valid mobile number")
+                    Swal.fire({
+                        "title": "Error",
+                        "text":  "Invalid Mobile Number. Please enter a valid number.",
+                        "icon": "error"
+                    });
                     return false;
                 }
             });

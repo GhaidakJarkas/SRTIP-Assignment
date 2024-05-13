@@ -60,7 +60,7 @@
             <label for='country'>Home Country <span style="color:red">*</span></label>
             <select id="country" name="country" class="form-control select2" required />
                 {% for country in countries %}
-                <option value="{{country.pk}}" {% if proccess == 'create' %}{% if customer and customer.country|add:0 == country.pk %}selected{%endif%}{% else %}{%if customer.country.name == country.name %} selected {% endif %}{% endif %}>{{country.name}}</option>
+                <option value="{{country.pk}}" {% if process == 'create' %}{% if customer and customer.country|add:0 == country.pk %}selected{%endif%}{% else %}{%if customer.country.name == country.name %} selected {% endif %}{% endif %}>{{country.name}}</option>
                 {% endfor %}
             </select>
         </div>
