@@ -1,0 +1,79 @@
+{% csrf_token %}
+<div class="row">
+    <div class="col-6">
+        <!-- text input -->
+        <div class="form-group">
+            <label for="name">Name <span style="color:red">*</span></label>
+            <input id="name" name="name" type="text" class="form-control" placeholder="Enter Name" value="{{customer.name}}" required />
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-group">
+            <label for='email'>Email <span style="color:red">*</span></label>
+            <input type='email' class="form-control" id='email' name='email' value="{{customer.email}}" placeholder="Enter Email" required />
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <!-- text input -->
+        <div class="form-group">
+            <label for="dob">Birth Date <span style="color:red">*</span></label>
+            <input id="dob" name="dob" type="date" class="form-control" value="{{customer.dob|date:'Y-m-d'}}" required />
+        </div>
+    </div>
+    <div class="col-6">
+        <!-- text input -->
+        <div class="mobile-input">
+            <label for="mobile">Mobile <span style="color:red">*</span></label>
+            <input id="mobile" name="shortmobile" type="tel" class="form-control" value="{{customer.mobile}}" required />
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        <!-- text input -->
+        <div class="form-group">
+            <label for="address">Address <span style="color:red">*</span></label>
+            <input id="address" name="address" type="text" class="form-control" value="{{customer.address}}" required />
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-group">
+            <label for='emirate'>Emirate <span style="color:red">*</span></label>
+            <select id="emirate" name="emirate" class="form-control">
+                <option value="abudhabi" {% if customer and customer.emirate == 'abudhabi' %}selected{%endif%}>Abu Dhabi</option>
+                <option value="dubai" {% if customer and customer.emirate == 'dubai' %}selected{%endif%}>Dubai</option>
+                <option value="sharjah" {% if customer and customer.emirate == 'sharjah' %}selected{%endif%}>Sharjah</option>
+                <option value="ajman" {% if customer and customer.emirate == 'ajman' %}selected{%endif%}>Ajman</option>
+                <option value="ummalquwain" {% if customer and customer.emirate == 'ummalquwain' %}selected{%endif%}>Umm Al Quwain</option>
+                <option value="rasalkhaimah" {% if customer and customer.emirate == 'rasalkhaimah' %}selected{%endif%}>Ras Al Khaimah</option>
+                <option value="fujairah" {% if customer and customer.emirate == 'fujairah' %}selected{%endif%}>Fujairah</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        <div class="selecttwo">
+            <label for='country'>Home Country <span style="color:red">*</span></label>
+            <select id="country" name="country" class="form-control select2" required />
+                {% for country in countries %}
+                <option value="{{country.pk}}" {% if customer and customer.country == country %}selected{%endif%}>{{country.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-group">
+            <label for='city'>Home City <span style="color:red">*</span></label>
+            <select id="city" name="city" class="form-control select2" required /> 
+                
+            </select>
+        </div>
+    </div>
+</div>
+<div class="row mb-4">
+    <button type="submit" class="btn btn-primary">{{button_text}}</button>
+</div>

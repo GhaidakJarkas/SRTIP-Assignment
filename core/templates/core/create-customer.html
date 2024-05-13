@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Create Customer{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.4/build/css/intlTelInput.css">
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.4/build/js/intlTelInput.min.js"></script>
+<style>
+    .mobile-input {
+        display: flex;
+        flex-direction: column;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: #444;
+        line-height: 18px !important;
+    }
+    .select2-container .select2-selection--single {
+        height: 36px !important;
+    }
+
+    .select2-container {
+        width: 535px !important;
+    }
+</style>
+{% endblock %}
+{% block content %}
+
+<form id="customer-form" method="post" action="{% url 'core:create-customer' %}">
+    {% include 'core/components/customer-form.html' with button_text="Create" process="create" %}   
+</form>
+{% endblock %}
+{% block extra_js %}
+    
+    <script>
+        $(document).ready(function(){
+            const input = document.querySelector("#mobile");
+            const iti = window.intlTelInput(input, {
+                initialCountry: "auto",
+                hiddenInput: function(mobile){
+                    return {
+                        phone: "mobile",
+                        code: "country_code"
+                    };
+                },
+                geoIpLookup: callback => {
+                    fetch("https://ipapi.co/json")
+                      .then(res => res.json())
+                      .then(data => callback(data.country_code))
+                      .catch(() => callback("ae"));
+                  },
+                utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.0.4/build/js/utils.js",
+            });
+
+            $('#customer-form').on('submit', function() {
+                if (!iti.isValidNumber()) {
+                    alert("Please Enter a valid mobile number")
+                    return false;
+                }
+            });
+        });
+        
+    </script>
+    <script>
+
+        $(document).ready(function() {
+            // Trigger the change event on page load
+            $('#country').trigger('change');
+        });
+        
+        $('#country').on('change', function(){
+            countryId = $(this).val();
+            url = `/get-cities/${countryId}/`;
+            $.ajax(url, {
+                method: 'GET', 
+                success: function(data){
+                    $('#city').empty();
+                    $.each(data.cities, function(index, city){
+                        $('#city').append($('<option>', {
+                            value: city.pk,
+                            text: city.name
+                        }));
+                    });
+                    $('#city').trigger('change');
+                }
+            });
+        });
+    </script>
+{% endblock %}

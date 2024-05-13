@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+    <div class="row">
+        {% if user.is_superuser %}
+        <div class="col-6">
+            <div class="info-box bg-info">
+                <span class="info-box-icon"><i class="far fa-user"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text">Users</span>
+                  <span class="info-box-number">{{users_count}}</span>
+                  <div class="progress">
+                    <div class="progress-bar" style="width: 70%"></div>
+                  </div>
+                  <span class="progress-description">
+                    <a href="{% url 'core:users' %}" style="color: white;">Go To Users</a>
+                  </span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+        </div>
+        {% endif %}
+        <div class="col-6">
+            <div class="info-box bg-warning">
+                <span class="info-box-icon"><i class="far fa-copy"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text">Customers</span>
+                  <span class="info-box-number">{{customers_count}}</span>
+  
+                  <div class="progress">
+                    <div class="progress-bar" style="width: 70%"></div>
+                  </div>
+                  <span class="progress-description">
+                    <a href="{% url 'core:customers' %}" style="color: white;">Go to Customers</a>
+                  </span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+        </div>
+    </div>
+{% endblock %}

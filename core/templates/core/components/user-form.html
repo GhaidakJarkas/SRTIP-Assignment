@@ -1,0 +1,56 @@
+{% csrf_token %}
+<div class="row">
+    <div class="col-6">
+        <div class="form-group">
+            <label for='email'>Email <span style="color:red">*</span></label>
+            <input type='email' class="form-control" id='email' name='email' value="{{customuser.email}}" placeholder="Enter Email" {% if process == 'edit' %}disabled{% endif %} required />
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-group">
+            <label for='role'>Role <span style="color:red">*</span></label>
+            <select id="role" name="role" class="form-control">
+                <option value="admin" {% if customuser and customuser.role == 'admin' %}selected{%endif%}>Admin</option>
+                <option value="staff" {% if customuser and customuser.role == 'staff' %}selected{%endif%}>Staff</option>
+                <option value="customer" {% if not customuser or customuser.role == 'customer' %}selected{% endif %}>Customer</option>
+            </select>
+        </div>
+    </div>
+</div>
+{% if process == 'create' %}
+<div class="row">
+    <div class="col-6">
+        <!-- text input -->
+        <div class="form-group">
+            <label for="password1">Password <span style="color:red">*</span></label>
+            <input id="password1" name="password1" type="password" class="form-control" placeholder="Enter password" value="{{customuser.password1}}" required />
+        </div>
+    </div>
+    <div class="col-6">
+        <!-- text input -->
+        <div class="form-group">
+            <label for="password2">Confirm Password <span style="color:red">*</span></label>
+            <input id="password2" name="password2" type="password" class="form-control" placeholder="Confirm Password" value="{{customuser.password2}}" required />
+        </div>
+    </div>
+</div>
+{% endif %}
+<div class="row">
+    <div class="col-6">
+        <!-- text input -->
+        <div class="form-group">
+            <label for="first_name">First Name</label>
+            <input id="first_name" name="first_name" type="text" class="form-control" placeholder="Enter First Name" value="{{customuser.first_name}}" />
+        </div>
+    </div>
+    <div class="col-6">
+        <!-- text input -->
+        <div class="form-group">
+            <label for="last_name">Last Name</label>
+            <input id="last_name" name="last_name" type="text" class="form-control" value="{{customuser.last_name}}" placeholder="Enter Last Name" />
+        </div>
+    </div>
+</div>
+<div class="row mb-4">
+    <button type="submit" class="btn btn-primary">{{button_text}}</button>
+</div>

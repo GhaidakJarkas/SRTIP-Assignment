@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Edit User{% endblock %}
+{% block style %}
+
+{% endblock %}
+{% block content %}
+
+<form method="post" action="{% url 'core:edit-user' customuser.pk %}">
+    {% include 'core/components/user-form.html' with button_text="Update" process="edit" %}   
+</form>
+{% endblock %}
+{% block extra_js %}
+
+{% endblock %}
