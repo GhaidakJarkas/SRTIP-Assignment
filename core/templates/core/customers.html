@@ -42,8 +42,8 @@
                         <td>{{customer.address}}</td>
                         <td>{{customer.dob}}</td>
                         <td>{{customer.emirate}}</td>
-                        <td>{{customer.country}}</td>
-                        <td>{{customer.city}}</td>
+                        <td>{{customer.country.name}}</td>
+                        <td>{{customer.city.name}}</td>
                         {% if user.role == 'admin' or user.role == 'staff' %}
                         <td>
                             

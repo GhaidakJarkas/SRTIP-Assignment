@@ -24,7 +24,8 @@
 {% endblock %}
 {% block content %}
 
-<form method="post" action="{% url 'core:edit-customer' customer.pk %}">
+<form id='customer-form' method="post" action="{% url 'core:edit-customer' customer.pk %}">
+    {{customer.city}}
     {% include 'core/components/customer-form.html' with button_text="Update" process="edit" %}   
 </form>
 {% endblock %}
@@ -59,7 +60,8 @@
         
     </script>
     <script>
-
+        const customerCity = "{{customer.city.name}}"
+        console.log(customerCity)
         $(document).ready(function() {
             // Trigger the change event on page load
             $('#country').trigger('change');
@@ -72,12 +74,17 @@
                 success: function(data){
                     $('#city').empty();
                     $.each(data.cities, function(index, city){
-                        $('#city').append($('<option>', {
+                        
+                        var option = $('<option>', {
                             value: city.pk,
                             text: city.name,
-                        }));
+                        });
+                        if (city.name === customerCity) { // Check if city matches customer's city
+                            option.attr('selected', 'selected'); // Set selected attribute
+                        }
+                        $('#city').append(option);
                     });
-                    
+                    $('#city').trigger('change');
                 }
             });
         });

@@ -118,12 +118,13 @@ def customers(request):
 
 @allowed_users(['admin', 'staff', 'customer'])
 def create_customer(request):
-    countries = Country.objects.all()
+    countries = Country.objects.all().values('pk', 'name')
     ctx = {
         "countries": countries
     }
     if request.method == 'POST':
         data = request.POST.copy()
+        print(data)
         form = CustomerForm(data)
         if form.is_valid():
             form.save()
@@ -147,7 +148,7 @@ def create_customer(request):
 @allowed_users(['admin', 'staff'])
 def edit_customer(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
-    countries = Country.objects.all()
+    countries = Country.objects.all().values('pk', 'name')
     if request.method == 'POST':
         data = request.POST.copy()
         form = CustomerForm(data, instance=customer)
