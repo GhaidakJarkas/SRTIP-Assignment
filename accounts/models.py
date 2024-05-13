@@ -39,7 +39,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(_("email address"), unique=True,)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    role = models.CharField(choices=USER_ROLE_CHOICES)
+    role = models.CharField(max_length=10, choices=USER_ROLE_CHOICES)
 
 
     objects = CustomUserManager()

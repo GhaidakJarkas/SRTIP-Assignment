@@ -44,12 +44,12 @@
                         <td>{{customer.emirate}}</td>
                         <td>{{customer.country}}</td>
                         <td>{{customer.city}}</td>
-                        {% if user.is_superuer or user.is_staff %}
+                        {% if user.role == 'admin' or user.role == 'staff' %}
                         <td>
                             
                             <a href="{% url 'core:edit-customer' customer.pk %}" class="btn bg-gradient-primary btn-sm">Edit</a>
                             
-                            {% if user.is_superuser %}
+                            {% if user.role == 'admin' %}
                             <a href="" data-customerid="{{customer.pk}}" class="btn bg-gradient-danger btn-sm delete-customer" data-toggle="modal" data-target="#delete-customer-modal">Delete</a>
                             {% endif %}
                         </td>

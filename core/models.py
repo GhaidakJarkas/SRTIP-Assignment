@@ -18,7 +18,7 @@ class Customer(models.Model):
     mobile = models.CharField(max_length=15)
     address = models.CharField(max_length=100)
     dob = models.DateField()
-    emirate = models.CharField(choices=EMIRATES, default='dubai')
+    emirate = models.CharField(max_length=25, choices=EMIRATES, default='dubai')
     country = models.ForeignKey('cities_light.Country', on_delete=models.SET_NULL, null=True, blank=True) 
     city = models.ForeignKey('cities_light.City', on_delete=models.SET_NULL, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)

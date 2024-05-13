@@ -3,7 +3,7 @@
 {% block title %}Home{% endblock %}
 {% block content %}
     <div class="row">
-        {% if user.is_superuser %}
+        {% if user.role == 'admin' %}
         <div class="col-6">
             <div class="info-box bg-info">
                 <span class="info-box-icon"><i class="far fa-user"></i></span>

@@ -75,7 +75,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                             with font-awesome or any other icon font library -->
-                        {% if user.is_superuser %}
+                        {% if user.role == 'admin' %}
                         <li class="nav-item">
                             <a href="javascript:void(0)" class="nav-link">
                               <i class="nav-icon fas fa-user"></i>
