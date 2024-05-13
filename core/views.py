@@ -77,6 +77,7 @@ def edit_user(request, pk):
     user = get_object_or_404(CustomUser, pk=pk)
     if request.method == 'POST':
         data = request.POST.copy()
+        print(data)
         form = CustomUserChangeForm(data, instance=user)
         if form.is_valid():
             form.save()
@@ -85,7 +86,10 @@ def edit_user(request, pk):
         else:
             for field, errors in form.errors.items():
                 for error in errors:
-                    messages.error(request, f"Error in the {field} Field: {error}")
+                    print(error)
+                    messages.error(request, f"Error in the {field} Field: {error}", extra_tags='danger')
+
+            data['pk'] = user.pk
             ctx = {
                 'customuser': data
             }
@@ -160,6 +164,7 @@ def edit_customer(request, pk):
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"Error in the {field} Field: {error}", extra_tags='danger')
+            
     ctx = {
         'customer': customer,
         'countries': countries
