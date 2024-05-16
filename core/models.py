@@ -28,3 +28,26 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+class Plan(models.Model):
+    name = models.CharField(max_length=100)
+    status = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
+    
+
+class Subscription(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    passport_number = models.CharField(max_length=25)
+    issue_date = models.DateField()
+    expiry_date = models.DateField()
+    doc = models.FileField()
+    plan = models.ForeignKey(Plan, on_delete=models.SET_NULL, null=True)
+    verified = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.first_name
+

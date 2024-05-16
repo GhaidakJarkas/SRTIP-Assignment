@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Subscription Details{% endblock %}
+{% block style %}
+{% endblock %}
+{% block content %}
+
+<div class="row">
+  <a href="{% url 'core:subscriptions' %}" class="btn btn-info mb-2">Back</a>
+</div>
+<div class="row">
+    <div class="col-4">
+        <!-- About Me Box -->
+        <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Passport Details</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <strong>First Name: </strong>
+
+              <p class="text-muted">
+                {{subscription.first_name}}
+              </p>
+
+              <hr>
+
+              <strong>Last Name: </strong>
+
+              <p class="text-muted">{{subscription.last_name}}</p>
+
+              <hr>
+
+              <strong>Issue Date: </strong>
+
+              <p class="text-muted">
+                {{subscription.issue_date}}
+              </p>
+
+              <hr>
+
+              <strong>Expiry Date: </strong>
+
+              <p class="text-muted">
+                {{subscription.expiry_date}}
+              </p>
+
+              <hr>
+
+              <strong>Passport Number</strong>
+
+              <p class="text-muted">{{subscription.passport_number}}</p>
+
+              <hr>
+              {% if user.role == 'admin' %}
+              <strong>Plan</strong>
+
+              <p class="text-muted">{{subscription.plan.name}}</p>
+              {% endif %}
+            </div>
+            <!-- /.card-body -->
+        </div>
+          <!-- /.card -->
+      {% if not subscription.verified %}
+      <button id='approve' type="submit" class="btn btn-primary">Approve</button>
+      {% endif %}
+    </div>
+    <div class="col-8">
+      <img src="{{subscription.doc.url}}" width="512" height="512" />
+    </div>
+</div>
+
+{% endblock %}
+{% block extra_js %}
+<script>
+  const subscriptionId = "{{subscription.pk}}";
+  $('#approve').on('click', function(e){
+    e.preventDefault();
+    console.log('clicked');
+    fetch(`/verify-subscription/${subscriptionId}/`, {
+      method: 'GET',
+    })
+    .then(response => {
+      if (response.ok) {
+        window.location.reload(); 
+      } else {
+        console.error('Network response was not ok.');
+      }
+    })
+    .catch(error => {
+      console.error('There has been a problem with your fetch operation:', error);
+    });
+  });
+  
+</script>
+{% endblock %}

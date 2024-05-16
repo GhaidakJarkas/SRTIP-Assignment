@@ -131,6 +131,24 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a href="{% url 'core:create-subscription' %}" class="nav-link">
+                              <i class="nav-icon fas fa-copy"></i>
+                              <p>
+                                Create Subscription
+                              </p>
+                            </a>
+                        </li>
+                        {% if user.role == 'staff' or user.role == 'admin' %}
+                        <li class="nav-item">
+                            <a href="{% url 'core:subscriptions' %}" class="nav-link">
+                              <i class="nav-icon fas fa-copy"></i>
+                              <p>
+                                Subscriptions
+                              </p>
+                            </a>
+                        </li>
+                        {% endif %}
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

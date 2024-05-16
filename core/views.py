@@ -8,6 +8,8 @@ from core.forms import CustomerForm
 from core.decorators import allowed_users
 from cities_light.models import Country, City
 from django.http import JsonResponse 
+from core.forms import SubscriptionForm
+from core.models import Plan
 
 import datetime
 
@@ -211,3 +213,70 @@ def get_cities(request, id):
     cities = City.objects.filter(country=id).values('pk', 'name')
     cities = list(cities)
     return JsonResponse(data={"cities": cities}, status=200)
+
+
+
+from core.models import Subscription
+#Get a list of all subscription
+@allowed_users(['staff', 'admin'])
+def subscriptions(request):
+    
+    if request.user.role == 'staff':
+        subscriptions = Subscription.objects.filter(verified=False)
+    elif request.user.role == 'admin':
+        subscriptions = Subscription.objects.filter(verified=True)
+
+    ctx = {
+        'subscriptions': subscriptions
+    }
+
+    return render(request, "core/subscriptions.html", ctx)
+
+
+def subscription_details(request, pk):
+    subscription = get_object_or_404(Subscription, pk=pk)
+    ctx = {
+        'subscription': subscription
+    }
+
+    return render(request, "core/subscription-details.html", ctx)
+
+
+def verify_subscription(request, pk):
+    subscription = get_object_or_404(Subscription, pk=pk)
+    if not subscription.verified and request.user.role == 'staff':
+        subscription.verified = True
+        subscription.save()
+        return JsonResponse(data={"message": "This request has been approved successfully"}, status=200)
+    return render(request, "404.html")
+    
+
+
+
+
+
+def create_subscription(request):
+    plans = Plan.objects.filter(status=True)
+    if request.method == 'POST':    
+        data = request.POST.copy()
+        doc = request.FILES
+
+        form = SubscriptionForm(data, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your data has been submitted successfully")
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Error in the {field} Field: {error}", extra_tags='danger')
+            ctx = {
+                'subscription': data,
+                'plans': plans
+            }
+
+            return render(request, "core/subscription.html", ctx)
+
+    ctx = {
+            'plans': plans
+        }
+    return render(request, "core/subscription.html", ctx)

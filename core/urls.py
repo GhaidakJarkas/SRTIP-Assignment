@@ -23,4 +23,11 @@ urlpatterns = [
     path('edit-customer/<int:pk>/', views.edit_customer, name='edit-customer'),
     path('delete-customer/', views.delete_customer, name='delete-customer'),
     path('get-cities/<int:id>/', views.get_cities, name='get-cities'),
+
+
+    #Subscription
+    path('create-subscription/', views.create_subscription, name='create-subscription'),
+    path('subscriptions/', views.subscriptions, name='subscriptions'),
+    path('subscription-details/<int:pk>/', views.subscription_details, name='subscription-details'),
+    path('verify-subscription/<int:pk>/', views.verify_subscription, name='verify-subscription'),
 ]

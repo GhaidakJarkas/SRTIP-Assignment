@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Create Subscription{% endblock %}
+{% block content %}
+<form id="subscription-form" method="post" action="{% url 'core:create-subscription' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-6">
+            <!-- text input -->
+            <div class="form-group">
+                <label for="first_name">Frist Name <span style="color:red">*</span></label>
+                <input id="first_name" name="first_name" type="text" class="form-control" placeholder="Enter First Name" value="{{subscription.first_name}}" required />
+            </div>
+        </div>
+        <div class="col-6">
+            <!-- text input -->
+            <div class="form-group">
+                <label for="last_name">Last Name <span style="color:red">*</span></label>
+                <input id="last_name" name="last_name" type="text" class="form-control" placeholder="Enter Last Name" value="{{subscription.last_name}}" required />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <!-- text input -->
+            <div class="form-group">
+                <label for="issue_date">Issue Date <span style="color:red">*</span></label>
+                <input id="issue_date" name="issue_date" type="date" class="form-control" value="{{subscription.issue_date|date:'Y-m-d'}}" required />
+            </div>
+        </div>
+        <div class="col-6">
+            <!-- text input -->
+            <div class="form-group">
+                <label for="expiry_date">Expiry Date <span style="color:red">*</span></label>
+                <input id="expiry_date" name="expiry_date" type="date" class="form-control" value="{{subscription.expiry_date|date:'Y-m-d'}}" required />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <!-- text input -->
+            <div class="form-group">
+                <label for="passport_number">Passport Number <span style="color:red">*</span></label>
+                <input id="passport_number" name="passport_number" type="number" class="form-control" value="{{subscription.passport_number}}" required />
+            </div>
+        </div>
+        <div class="col-6">
+            <!-- text input -->
+            <div class="form-group">
+                {% comment %} <input type="file" class="custom-file-input" id="image" name="image" required /> {% endcomment %}
+                <label for="doc">Upload File <span style="color:red">*</span></label>
+                <input id="doc" name="doc" type="file" class="form-control" required />
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label for="plan">Choose Plan</label>
+                <select name="plan" class="form-control">
+                    <option value=''>Select Plan</option>
+                    {% for plan in plans %}
+                    <option value="{{plan.pk}}">{{plan.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+   
+
+    <div class="row mb-4">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>   
+</form>
+
+{% endblock %}
